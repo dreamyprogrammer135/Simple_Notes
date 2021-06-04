@@ -13,8 +13,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TaskElement taskElement = new TaskElement("111",1);
-        Date date = taskElement.getTimeReminder();
-        String id = taskElement.getId();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.container, new ListNotes())
+                .commit();
     }
 }
