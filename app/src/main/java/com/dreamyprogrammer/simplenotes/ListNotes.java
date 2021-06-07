@@ -1,5 +1,6 @@
 package com.dreamyprogrammer.simplenotes;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,8 +88,21 @@ public class ListNotes extends Fragment {
         adapter = new AdapterTask(taskElements);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((view, position, typeClick) -> {
+            ((Controller) getActivity()).openNotes(taskElements.get(position));
             Snackbar.make(view, "Откроется фрагмент для редактирования заметки", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         });
+    }
+
+    interface Controller {
+        void openNotes(TaskElement taskElement);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (!(context instanceof Controller)) {
+            throw new RuntimeException(getString(R.string.error_implement_controller));
+        }
     }
 }

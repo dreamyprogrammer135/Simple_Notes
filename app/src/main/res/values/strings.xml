@@ -4,5 +4,7 @@
     <string name="list">List</string>
     <string name="task">Task</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_implement_controller" translatable="false">Activity must implement ProfileListFragment.Controller</string>
+    <string name="edit_text_hint">Write the list items, each on a new line</string>
+    <string name="save">Save</string>
 </resources>

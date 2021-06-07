@@ -4,5 +4,7 @@
     <string name="folder">Папка</string>
     <string name="list">Список</string>
     <string name="task">Задача</string>
+    <string name="edit_text_hint">Напишите пункты списка, каждый с новой строки</string>
+    <string name="save">Сохранить</string>
 
 </resources>

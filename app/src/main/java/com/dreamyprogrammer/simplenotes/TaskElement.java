@@ -1,8 +1,11 @@
 package com.dreamyprogrammer.simplenotes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class TaskElement {
+public class TaskElement implements Parcelable {
     private String id;
     private String name;
     private Date createDate;
@@ -13,6 +16,43 @@ public class TaskElement {
     private String idGroupElement;
     private Date timeReminder;
     private Integer delete;
+    //todo 07.06.2021 поле только для 6-го урока. Далее удалим за ненадобностью.
+    private String notes;
+
+
+    protected TaskElement(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        if (in.readByte() == 0) {
+            priority = null;
+        } else {
+            priority = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            typeElement = null;
+        } else {
+            typeElement = in.readInt();
+        }
+        idGroupElement = in.readString();
+        if (in.readByte() == 0) {
+            delete = null;
+        } else {
+            delete = in.readInt();
+        }
+        notes = in.readString();
+    }
+
+    public static final Creator<TaskElement> CREATOR = new Creator<TaskElement>() {
+        @Override
+        public TaskElement createFromParcel(Parcel in) {
+            return new TaskElement(in);
+        }
+
+        @Override
+        public TaskElement[] newArray(int size) {
+            return new TaskElement[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -73,4 +113,42 @@ public class TaskElement {
         this.priority = priority;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        if (priority == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(priority);
+        }
+        if (typeElement == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(typeElement);
+        }
+        dest.writeString(idGroupElement);
+        if (delete == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(delete);
+        }
+        dest.writeString(notes);
+    }
 }
