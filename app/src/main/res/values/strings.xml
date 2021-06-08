@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Simple Notes</string>
+    <string name="folder">Folder</string>
+    <string name="list">List</string>
+    <string name="task">Task</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="error_implement_controller" translatable="false">Activity must implement ProfileListFragment.Controller</string>
+    <string name="edit_text_hint">Write the list items, each on a new line</string>
+    <string name="save">Save</string>
+    <string name="comment_list_notes" translatable="false">Откроется фрагмент для редактирования заметки</string>
 </resources>

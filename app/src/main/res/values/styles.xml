@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="myBottomNavigationStyle">
+        <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
+        <item name="android:background">#403A3A</item>
+    </style>
+</resources>
