@@ -7,4 +7,5 @@
     <string name="error_implement_controller" translatable="false">Activity must implement ProfileListFragment.Controller</string>
     <string name="edit_text_hint">Write the list items, each on a new line</string>
     <string name="save">Save</string>
+    <string name="comment_list_notes" translatable="false">Откроется фрагмент для редактирования заметки</string>
 </resources>

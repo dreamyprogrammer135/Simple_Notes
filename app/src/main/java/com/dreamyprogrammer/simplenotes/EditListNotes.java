@@ -2,26 +2,32 @@ package com.dreamyprogrammer.simplenotes;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 
-public class EditListNotes extends Fragment {
+public class EditListNotes extends Fragment implements DatePickerFragment.DateReceiver {
 
 
     private static final String TASK_ELEMENT_ARGS_KEY = "TASK_ELEMENT_ARGS_KEY";
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
     private TaskElement task;
     private EditText editTextNotes;
     private Button saveButton;
+    private TextView textViewDate;
 
 
     public static EditListNotes newInstance(TaskElement taskElement) {
@@ -49,7 +55,11 @@ public class EditListNotes extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         editTextNotes = view.findViewById(R.id.edit_text_notes);
         saveButton = view.findViewById(R.id.save_button);
+        textViewDate = view.findViewById(R.id.text_view_date);
+        textViewDate.setText(dateFormat.format(task.getCreateDate()));
         editTextNotes.setText(task.getName());
+        textViewDate.setOnClickListener(this::showDatePickerDialog);
+
 
         saveButton.setOnClickListener(v -> {
             Controller controller = (Controller) getActivity();
@@ -70,6 +80,16 @@ public class EditListNotes extends Fragment {
         if (getArguments() != null) {
             task = getArguments().getParcelable(TASK_ELEMENT_ARGS_KEY);
         }
+    }
+
+    @Override
+    public void setDate(String date) {
+        this.textViewDate.setText(date);
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment datePickerFragment = new DatePickerFragment(this);
+        datePickerFragment.show(requireActivity().getSupportFragmentManager(), null);
     }
 
     interface Controller {

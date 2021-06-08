@@ -3,9 +3,22 @@ package com.dreamyprogrammer.simplenotes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class TaskElement implements Parcelable {
+    public static final Creator<TaskElement> CREATOR = new Creator<TaskElement>() {
+        @Override
+        public TaskElement createFromParcel(Parcel in) {
+            return new TaskElement(in);
+        }
+
+        @Override
+        public TaskElement[] newArray(int size) {
+            return new TaskElement[size];
+        }
+    };
     private String id;
     private String name;
     private Date createDate;
@@ -19,6 +32,7 @@ public class TaskElement implements Parcelable {
     //todo 07.06.2021 поле только для 6-го урока. Далее удалим за ненадобностью.
     private String notes;
 
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
     protected TaskElement(Parcel in) {
         id = in.readString();
@@ -42,31 +56,23 @@ public class TaskElement implements Parcelable {
         notes = in.readString();
     }
 
-    public static final Creator<TaskElement> CREATOR = new Creator<TaskElement>() {
-        @Override
-        public TaskElement createFromParcel(Parcel in) {
-            return new TaskElement(in);
-        }
-
-        @Override
-        public TaskElement[] newArray(int size) {
-            return new TaskElement[size];
-        }
-    };
+    public TaskElement(String name, Integer typeElement) {
+        this.name = name;
+        this.typeElement = typeElement;
+        this.createDate = new Date();
+        this.id = String.valueOf(this.name.hashCode()) + String.valueOf(this.createDate.hashCode());
+    }
 
     public String getId() {
         return id;
     }
 
-    public TaskElement(String name, Integer typeElement) {
-        this.name = name;
-        this.typeElement = typeElement;
-        this.createDate = new Date();
-        this.id = String.valueOf(this.name.hashCode())+String.valueOf(this.createDate.hashCode());
-    }
-
     public Date getTimeReminder() {
         return timeReminder;
+    }
+
+    public void setTimeReminder(Date timeReminder) {
+        this.timeReminder = timeReminder;
     }
 
     public Integer getDelete() {

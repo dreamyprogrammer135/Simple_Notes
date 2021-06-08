@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,40 +13,39 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
+
 public class ListNotes extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+//    private static final String ARG_PARAM1 = "param1";
+//    private static final String ARG_PARAM2 = "param2";
+    public List<String> list;
     private String mParam1;
     private String mParam2;
-
-
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
-    public List<String> list;
     private AdapterTask adapter;
 
-    public static ListNotes newInstance(String param1, String param2) {
-        ListNotes fragment = new ListNotes();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    //todo Будет нужно когда инфу буду прокидывать в обе стороны.
+    // пока думаю что куда вообще будет прокидываться.
+//    public static ListNotes newInstance(String param1, String param2) {
+//        ListNotes fragment = new ListNotes();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @Override
@@ -73,6 +73,7 @@ public class ListNotes extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
+        // todo Пока константный список. Потом доделаем.
         TaskElement taskElement1 = new TaskElement("Разобраться с фрагментами", 0);
         TaskElement taskElement2 = new TaskElement("Купить велосипед", 0);
         TaskElement taskElement3 = new TaskElement("Поиграть с детьми", 0);
@@ -84,18 +85,12 @@ public class ListNotes extends Fragment {
         taskElements.add(taskElement4);
         taskElements.add(taskElement5);
 
-
         adapter = new AdapterTask(taskElements);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((view, position, typeClick) -> {
             ((Controller) getActivity()).openNotes(taskElements.get(position));
-            Snackbar.make(view, "Откроется фрагмент для редактирования заметки", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Toast.makeText(getContext(), R.string.comment_list_notes, Toast.LENGTH_SHORT).show();
         });
-    }
-
-    interface Controller {
-        void openNotes(TaskElement taskElement);
     }
 
     @Override
@@ -104,5 +99,9 @@ public class ListNotes extends Fragment {
         if (!(context instanceof Controller)) {
             throw new RuntimeException(getString(R.string.error_implement_controller));
         }
+    }
+
+    interface Controller {
+        void openNotes(TaskElement taskElement);
     }
 }

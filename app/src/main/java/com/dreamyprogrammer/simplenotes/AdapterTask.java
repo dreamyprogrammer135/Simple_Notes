@@ -5,16 +5,10 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -29,6 +23,7 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
     public AdapterTask(ArrayList<TaskElement> taskElements) {
         this.taskElements = taskElements;
     }
+
     // Создать новый элемент пользовательского интерфейса
     // Запускается менеджером
     @NonNull
@@ -57,15 +52,9 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         viewHolder.textМiewЕask.setText(taskElements.get(i).getName());
     }
 
-    //Интерфейс для обработки нажатий
-    public interface OnItemClickListener{
-        void onItemClick(View view, int position, int typeClick);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener itemClickListener){
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
-
 
     // Вернуть размер данных, вызывается менеджером
     @Override
@@ -73,7 +62,13 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         return taskElements == null ? 0 : taskElements.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    //Интерфейс для обработки нажатий
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, int typeClick);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private MaterialTextView textМiewЕask;
 
@@ -81,8 +76,9 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
             super(itemView);
             textМiewЕask = itemView.findViewById(R.id.text_view_task);
         }
-        public void setOnClickListener(final OnItemClickListener listener){
-            textМiewЕask.setOnClickListener((v)->{
+
+        public void setOnClickListener(final OnItemClickListener listener) {
+            textМiewЕask.setOnClickListener((v) -> {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION) return;
                 listener.onItemClick(v, adapterPosition, 1);

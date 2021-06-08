@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/purple_200"
+    android:orientation="vertical"
     tools:context=".EditListNotes">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,10 +14,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/edit_text_hint" />
+
+    <TextView
+        android:id="@+id/text_view_date"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/save_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save"/>
+        android:text="@string/save" />
 
 </LinearLayout>

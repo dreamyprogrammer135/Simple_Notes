@@ -1,13 +1,11 @@
 package com.dreamyprogrammer.simplenotes;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-import java.util.Date;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements ListNotes.Controller, EditListNotes.Controller{
+public class MainActivity extends AppCompatActivity implements ListNotes.Controller, EditListNotes.Controller {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +20,8 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
 
     @Override
     public void saveNotes(TaskElement taskElement) {
-
+        //todo Будет нужно когда инфу буду прокидывать в обе стороны.
+        // пока думаю что куда вообще будет прокидываться.
     }
 
     @Override
@@ -34,11 +33,5 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
                 .replace(isLandscape ? R.id.detail_container : R.id.container, EditListNotes.newInstance(taskElement))
                 .addToBackStack(null)
                 .commit();
-
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.container, EditListNotes.newInstance(taskElement))
-//                .addToBackStack(null)
-//                .commit();
     }
 }
