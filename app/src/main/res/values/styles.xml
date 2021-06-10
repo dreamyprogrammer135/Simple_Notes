@@ -3,6 +3,12 @@
     <style name="myBottomNavigationStyle">
         <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
         <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
-        <item name="android:background">#403A3A</item>
+        <item name="android:background">@color/bottom_nav_background</item>
+    </style>
+
+    <style name="MyActionBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/bottom_nav_background</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 </resources>

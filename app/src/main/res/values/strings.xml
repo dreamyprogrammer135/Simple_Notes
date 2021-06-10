@@ -8,4 +8,28 @@
     <string name="edit_text_hint">Write the list items, each on a new line</string>
     <string name="save">Save</string>
     <string name="comment_list_notes" translatable="false">Откроется фрагмент для редактирования заметки</string>
+    <string name="order">Order</string>
+    <string name="action_settings">Settings</string>
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Messages</string>
+    <string name="sync_header" translatable="false">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">Your signature</string>
+    <string name="reply_title" translatable="false">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="about_the_app">Just Lists is an app for those who are tired of a bunch of functions
+        and incomprehensible menus. Everything is simple and easy here. You can write anything you
+        want in it, from notes and a list of products to a plan to conquer the world. Creating
+        folders allows you to make the necessary order of your lists.
+    </string>
+    <string name="menu_about_the_app">About the app</string>
+
 </resources>

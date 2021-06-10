@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="item_color">#AEAEAE</color>
+    <color name="bottom_nav_background">#403A3A</color>
+    <color name="color_item">#757575</color>
 </resources>

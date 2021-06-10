@@ -2,19 +2,28 @@ package com.dreamyprogrammer.simplenotes;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 public class MainActivity extends AppCompatActivity implements ListNotes.Controller, EditListNotes.Controller {
+
+
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, new ListNotes())
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        fragmentManager.beginTransaction()
+                .add(R.id.container, new ListNotes())
                 .commit();
     }
 
@@ -26,12 +35,28 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
 
     @Override
     public void openNotes(TaskElement taskElement) {
-
-        boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(isLandscape ? R.id.detail_container : R.id.container, EditListNotes.newInstance(taskElement))
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, EditListNotes.newInstance(taskElement))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_about) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, new AboutTheApp())
+                    .addToBackStack(null)
+                    .commit();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
