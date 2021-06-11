@@ -29,7 +29,6 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
     private Button saveButton;
     private TextView textViewDate;
 
-
     public static EditListNotes newInstance(TaskElement taskElement) {
         EditListNotes editListNotes = new EditListNotes();
         Bundle args = new Bundle();
@@ -41,7 +40,6 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -60,7 +58,6 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
         editTextNotes.setText(task.getName());
         textViewDate.setOnClickListener(this::showDatePickerDialog);
 
-
         saveButton.setOnClickListener(v -> {
             Controller controller = (Controller) getActivity();
             controller.saveNotes(new TaskElement(
@@ -68,7 +65,6 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
                     0
             ));
         });
-
     }
 
     @Override

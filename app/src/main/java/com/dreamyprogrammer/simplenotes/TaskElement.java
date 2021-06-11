@@ -19,6 +19,7 @@ public class TaskElement implements Parcelable {
             return new TaskElement[size];
         }
     };
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
     private String id;
     private String name;
     private Date createDate;
@@ -31,8 +32,6 @@ public class TaskElement implements Parcelable {
     private Integer delete;
     //todo 07.06.2021 поле только для 6-го урока. Далее удалим за ненадобностью.
     private String notes;
-
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
     protected TaskElement(Parcel in) {
         id = in.readString();

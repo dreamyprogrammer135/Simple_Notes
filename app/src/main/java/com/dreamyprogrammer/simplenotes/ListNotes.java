@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ListNotes extends Fragment {
 
-//    private static final String ARG_PARAM1 = "param1";
+    //    private static final String ARG_PARAM1 = "param1";
 //    private static final String ARG_PARAM2 = "param2";
     public List<String> list;
     private String mParam1;
@@ -57,7 +57,6 @@ public class ListNotes extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         findView(view);
         setupRecyclerView();
     }
@@ -69,7 +68,6 @@ public class ListNotes extends Fragment {
     private void setupRecyclerView() {
 
         ArrayList<TaskElement> taskElements = new ArrayList<>();
-
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 

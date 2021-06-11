@@ -10,8 +10,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/about_text_padding"
+        android:text="@string/about_the_app"
         android:textColor="@color/white"
-        android:textSize="30dp"
-        android:text="@string/about_the_app" />
+        android:textSize="@dimen/about_text_size" />
 
 </FrameLayout>

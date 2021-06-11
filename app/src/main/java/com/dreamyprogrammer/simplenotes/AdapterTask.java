@@ -32,7 +32,6 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         // Создаем новый элемент пользовательского интерфейса
         // Через Inflater
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_task_layout, viewGroup, false);
-
         ViewHolder vh = new ViewHolder(v);
         if (itemClickListener != null) {
             vh.setOnClickListener(itemClickListener);
@@ -61,7 +60,6 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
     public int getItemCount() {
         return taskElements == null ? 0 : taskElements.size();
     }
-
 
     //Интерфейс для обработки нажатий
     public interface OnItemClickListener {
