@@ -3,10 +3,14 @@ package com.dreamyprogrammer.simplenotes;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+
+
 
 public class MainActivity extends AppCompatActivity implements ListNotes.Controller, EditListNotes.Controller {
 
@@ -18,8 +22,6 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         fragmentManager.beginTransaction()
                 .add(R.id.container, new ListNotes())

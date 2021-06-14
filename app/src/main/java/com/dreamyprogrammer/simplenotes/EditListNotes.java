@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -28,6 +30,7 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
     private EditText editTextNotes;
     private Button saveButton;
     private TextView textViewDate;
+    private EditText editTitle;
 
     public static EditListNotes newInstance(TaskElement taskElement) {
         EditListNotes editListNotes = new EditListNotes();
@@ -40,6 +43,8 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -52,20 +57,33 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         editTextNotes = view.findViewById(R.id.edit_text_notes);
+        editTitle = view.findViewById(R.id.edit_title);
         saveButton = view.findViewById(R.id.save_button);
-        textViewDate = view.findViewById(R.id.text_view_date);
-        textViewDate.setText(dateFormat.format(task.getCreateDate()));
-        editTextNotes.setText(task.getName());
-        textViewDate.setOnClickListener(this::showDatePickerDialog);
+
+        editTitle.setText(task.getTitle());
+        editTextNotes.setText(task.getNotes());
 
         saveButton.setOnClickListener(v -> {
+  //          getContract().saveNotes(gatherNote());
             Controller controller = (Controller) getActivity();
             controller.saveNotes(new TaskElement(
                     editTextNotes.getText().toString(),
                     0
             ));
         });
+
+
     }
+
+//    private TaskElement gatherNote() {
+//        return new TaskElement(
+//                task == null ? TaskElement.generateNewId() : task.id,
+//                subjectEditText.getText().toString(),
+//                task == null ? TaskElement.getCurrentDate() : task.creationDate,
+//                textEditText.getText().toString(),
+//                phoneEditText.getText().toString()
+//        );
+//}
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -88,6 +106,9 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
         datePickerFragment.show(requireActivity().getSupportFragmentManager(), null);
     }
 
+    private Controller getContract() {
+        return (Controller) getActivity();
+    }
     interface Controller {
         void saveNotes(TaskElement taskElement);
     }

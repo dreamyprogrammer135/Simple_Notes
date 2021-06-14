@@ -4,8 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 public class TaskElement implements Parcelable {
     public static final Creator<TaskElement> CREATOR = new Creator<TaskElement>() {
@@ -21,21 +23,32 @@ public class TaskElement implements Parcelable {
     };
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
     private String id;
-    private String name;
-    private Date createDate;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+
+
+    private String title;
+    private Long createDate;
     // todo 03.06.2021  подумать с приоритетом возможно и не надо
     private Integer priority;
     private Integer typeElement;
     //todo 03.06.2021 хочу заметки с иерархией (папочки будут)
     private String idGroupElement;
-    private Date timeReminder;
+    private Long timeReminder;
     private Integer delete;
     //todo 07.06.2021 поле только для 6-го урока. Далее удалим за ненадобностью.
     private String notes;
 
     protected TaskElement(Parcel in) {
         id = in.readString();
-        name = in.readString();
+        title = in.readString();
         if (in.readByte() == 0) {
             priority = null;
         } else {
@@ -56,22 +69,18 @@ public class TaskElement implements Parcelable {
     }
 
     public TaskElement(String name, Integer typeElement) {
-        this.name = name;
+        this.title = name;
         this.typeElement = typeElement;
-        this.createDate = new Date();
-        this.id = String.valueOf(this.name.hashCode()) + String.valueOf(this.createDate.hashCode());
+        this.createDate = getCurrentDate();
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public static long getCurrentDate() {
+        return Calendar.getInstance().getTimeInMillis();
     }
 
     public String getId() {
         return id;
-    }
-
-    public Date getTimeReminder() {
-        return timeReminder;
-    }
-
-    public void setTimeReminder(Date timeReminder) {
-        this.timeReminder = timeReminder;
     }
 
     public Integer getDelete() {
@@ -95,19 +104,11 @@ public class TaskElement implements Parcelable {
     }
 
     public String getName() {
-        return name;
+        return title;
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+        this.title = name;
     }
 
     public Integer getPriority() {
@@ -134,7 +135,7 @@ public class TaskElement implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(name);
+        dest.writeString(title);
         if (priority == null) {
             dest.writeByte((byte) 0);
         } else {

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/listItemLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="5dp"
+    android:backgroundTint="@color/color_item">
 
 
     <LinearLayout
@@ -11,10 +16,17 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:layout_weight="1"
-        android:background="@color/color_item"
         android:orientation="horizontal"
         android:padding="5dp"
         tools:ignore="PrivateResource,UselessParent">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_item_list"
+            android:layout_marginRight="5dp"/>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_view_task"
@@ -26,5 +38,18 @@
             android:textSize="@dimen/item_text_size"
             tools:ignore="UnusedAttribute"
             tools:text="Приготовить" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="end"
+            android:layout_weight="4"
+            android:textColor="@color/white"
+            android:textSize="@dimen/item_text_size"
+            tools:ignore="UnusedAttribute"
+            tools:text="4/9" />
+
     </LinearLayout>
-</FrameLayout>
+</androidx.cardview.widget.CardView>

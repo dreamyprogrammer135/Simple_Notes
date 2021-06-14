@@ -8,7 +8,7 @@
     <string name="edit_text_hint">Write the list items, each on a new line</string>
     <string name="save">Save</string>
     <string name="comment_list_notes" translatable="false">Откроется фрагмент для редактирования заметки</string>
-    <string name="order">Order</string>
+    <string name="order">Order date</string>
     <string name="action_settings">Settings</string>
     <!-- Preference Titles -->
     <string name="messages_header" translatable="false">Messages</string>
@@ -31,5 +31,6 @@
         folders allows you to make the necessary order of your lists.
     </string>
     <string name="menu_about_the_app">About the app</string>
+    <string name="edit_hint_title">Name of the list</string>
 
 </resources>

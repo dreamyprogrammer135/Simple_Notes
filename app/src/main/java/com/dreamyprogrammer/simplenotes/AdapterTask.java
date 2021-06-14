@@ -12,14 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
 
-    private ArrayList<TaskElement> taskElements;
+    private List<TaskElement> taskElements = new ArrayList<>();
     private OnItemClickListener itemClickListener;
 
     // Передаем в конструктор источник данных
     // В нашем случае это массив, но может быть и запросом к БД
+    public void setData(ArrayList<TaskElement> notes) {
+        taskElements = notes;
+        notifyDataSetChanged();
+    }
+
     public AdapterTask(ArrayList<TaskElement> taskElements) {
         this.taskElements = taskElements;
     }
@@ -48,7 +54,8 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         // Получить элемент из источника данных (БД, интернет...)
         // Вынести на экран используя ViewHolder
         // Заполнение View вынести в отдельный метод
-        viewHolder.textМiewЕask.setText(taskElements.get(i).getName());
+        viewHolder.textViewЕask.setText(taskElements.get(i).getName());
+        viewHolder.textViewCount.setText("4/9");
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -68,15 +75,17 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private MaterialTextView textМiewЕask;
+        private MaterialTextView textViewЕask;
+        private MaterialTextView textViewCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textМiewЕask = itemView.findViewById(R.id.text_view_task);
+            textViewЕask = itemView.findViewById(R.id.text_view_task);
+            textViewCount = itemView.findViewById(R.id.text_view_count);
         }
 
         public void setOnClickListener(final OnItemClickListener listener) {
-            textМiewЕask.setOnClickListener((v) -> {
+            textViewЕask.setOnClickListener((v) -> {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION) return;
                 listener.onItemClick(v, adapterPosition, 1);
