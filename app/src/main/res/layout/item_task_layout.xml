@@ -2,12 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listItemLayout"
+    android:id="@+id/list_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     app:cardCornerRadius="8dp"
-    android:layout_margin="5dp"
+    android:layout_marginTop="@dimen/margin_item"
+    android:layout_marginStart="@dimen/margin_item"
+    android:layout_marginEnd="@dimen/margin_item"
     android:backgroundTint="@color/color_item">
 
 
@@ -17,7 +19,7 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="@dimen/padding_item"
         tools:ignore="PrivateResource,UselessParent">
 
 

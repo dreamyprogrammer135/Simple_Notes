@@ -3,7 +3,7 @@
     <style name="Theme.SimpleNotes" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/bottom_nav_background</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -19,5 +19,5 @@
 
     <style name="Theme.SimpleNotes.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.SimpleNotes.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.SimpleNotes.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 </resources>
