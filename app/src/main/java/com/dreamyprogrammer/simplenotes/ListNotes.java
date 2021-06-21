@@ -8,7 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,14 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListNotes extends Fragment {
 
     private ArrayList<TaskElement> taskElements = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
-    private AdapterTask adapter;
+    private TaskAdapter adapter;
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
 
@@ -60,11 +59,19 @@ public class ListNotes extends Fragment {
     }
 
     private boolean navigate(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.item_task: {
                 ((Controller) getActivity()).createNotes();
             }
-                break;
+            break;
+            case R.id.item_folder: {
+                Toast.makeText(getContext(), getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
+            }
+            break;
+            case R.id.item_sort: {
+                Toast.makeText(getContext(), getResources().getString(R.string.error_text), Toast.LENGTH_SHORT).show();
+            }
+            break;
             default:
                 return true;
         }
@@ -77,21 +84,9 @@ public class ListNotes extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        // todo Пока константный список. Потом доделаем.
-//        TaskElement taskElement1 = new TaskElement("Разобраться с фрагментами", 0);
-//        TaskElement taskElement2 = new TaskElement("Купить велосипед", 0);
-//        TaskElement taskElement3 = new TaskElement("Поиграть с детьми", 0);
-//        TaskElement taskElement4 = new TaskElement("Разобрать в шкафу", 0);
-//        TaskElement taskElement5 = new TaskElement("Сделать грядки", 0);
-//        taskElements.add(taskElement1);
-//        taskElements.add(taskElement2);
-//        taskElements.add(taskElement3);
-//        taskElements.add(taskElement4);
-//        taskElements.add(taskElement5);
-
-        adapter = new AdapterTask(taskElements);
+        adapter = new TaskAdapter(taskElements);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener((view, position, typeClick) -> {
+        adapter.setOnItemClickListener((view, position) -> {
             ((Controller) getActivity()).editNotes(taskElements.get(position));
         });
     }
@@ -118,15 +113,17 @@ public class ListNotes extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    interface Controller {
-        void createNotes();
-        void editNotes(TaskElement taskElement);
-        void openAboutFragment();
-    }
-
     public void addNote(TaskElement newTask) {
         taskElements.add(newTask);
         adapter.setData(taskElements);
+    }
+
+    interface Controller {
+        void createNotes();
+
+        void editNotes(TaskElement taskElement);
+
+        void openAboutFragment();
     }
 
 }

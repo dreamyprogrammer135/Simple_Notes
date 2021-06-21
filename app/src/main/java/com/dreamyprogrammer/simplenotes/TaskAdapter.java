@@ -3,10 +3,12 @@ package com.dreamyprogrammer.simplenotes;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
@@ -14,10 +16,14 @@ import com.google.android.material.textview.MaterialTextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private List<TaskElement> taskElements = new ArrayList<>();
     private OnItemClickListener itemClickListener;
+
+    public TaskAdapter(ArrayList<TaskElement> taskElements) {
+        this.taskElements = taskElements;
+    }
 
     // Передаем в конструктор источник данных
     // В нашем случае это массив, но может быть и запросом к БД
@@ -26,15 +32,11 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public AdapterTask(ArrayList<TaskElement> taskElements) {
-        this.taskElements = taskElements;
-    }
-
     // Создать новый элемент пользовательского интерфейса
     // Запускается менеджером
     @NonNull
     @Override
-    public AdapterTask.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public TaskAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         // Создаем новый элемент пользовательского интерфейса
         // Через Inflater
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_task_layout, viewGroup, false);
@@ -50,11 +52,12 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
     // Вызывается менеджером
     @SuppressLint("WrongConstant")
     @Override
-    public void onBindViewHolder(@NonNull AdapterTask.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull TaskAdapter.ViewHolder viewHolder, int i) {
         // Получить элемент из источника данных (БД, интернет...)
         // Вынести на экран используя ViewHolder
         // Заполнение View вынести в отдельный метод
-        viewHolder.textViewЕask.setText(taskElements.get(i).getName());
+        viewHolder.textViewTask.setText(taskElements.get(i).getName());
+        //todo пока заглушка, потом метод подсчитывает выполненные задачи и невыполненные
         viewHolder.textViewCount.setText("4/9");
     }
 
@@ -70,26 +73,47 @@ public class AdapterTask extends RecyclerView.Adapter<AdapterTask.ViewHolder> {
 
     //Интерфейс для обработки нажатий
     public interface OnItemClickListener {
-        void onItemClick(View view, int position, int typeClick);
+        void onItemClick(View view, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private MaterialTextView textViewЕask;
+        private MaterialTextView textViewTask;
         private MaterialTextView textViewCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewЕask = itemView.findViewById(R.id.text_view_task);
+            textViewTask = itemView.findViewById(R.id.text_view_task);
             textViewCount = itemView.findViewById(R.id.text_view_count);
         }
 
         public void setOnClickListener(final OnItemClickListener listener) {
-            textViewЕask.setOnClickListener((v) -> {
+            textViewTask.setOnClickListener((v) -> {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION) return;
-                listener.onItemClick(v, adapterPosition, 1);
+                listener.onItemClick(v, adapterPosition);
             });
+            textViewTask.setOnLongClickListener(this::initPopupMenu);
+        }
+
+        private boolean onPopupMenuClicked(MenuItem menuItem) {
+            if (menuItem.getItemId() == R.id.popup_menu_item_delete) {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION) return false;
+                taskElements.remove(adapterPosition);
+                setData((ArrayList<TaskElement>) taskElements);
+            } else {
+                throw new RuntimeException("unknown popup menu item");
+            }
+            return true;
+        }
+
+        private boolean initPopupMenu(View view) {
+            PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
+            popupMenu.inflate(R.menu.popup_menu_list);
+            popupMenu.setOnMenuItemClickListener(this::onPopupMenuClicked);
+            popupMenu.show();
+            return true;
         }
     }
 }

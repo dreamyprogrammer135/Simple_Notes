@@ -32,5 +32,7 @@
     </string>
     <string name="menu_about_the_app">About the app</string>
     <string name="edit_hint_title">Name of the list</string>
+    <string name="popup_menu_delete">Delete</string>
+    <string name="error_text">The functionality is temporarily unavailable</string>
 
 </resources>

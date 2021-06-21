@@ -17,5 +17,7 @@
     </string>
     <string name="menu_about_the_app">О программе</string>
     <string name="edit_hint_title">Название списка</string>
+    <string name="popup_menu_delete">Удалить</string>
+    <string name="error_text">Функционал временно не доступен</string>
 
 </resources>
