@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Простые заметки</string>
+    <string name="folder">Папка</string>
+    <string name="list">Список</string>
+    <string name="task">Задача</string>
+    <string name="edit_text_hint">Напишите пункты списка, каждый с новой строки</string>
+    <string name="save">Сохранить</string>
+    <string name="order">Сорт. дата</string>
+    <string name="action_settings">Настройки</string>
+    <string name="about_the_app">Просто списки - это приложение для тех, кто устал от кучи функций и
+        непонятных меню.
+
+        Здесь всё просто и легко. Вы можете записывать в него всё что угодно, начиная от заметок и списка продуктов заканчивая планом завоевания мира.
+
+        Создание папок даёт возможность сделать необходимый порядок ваших списков.
+    </string>
+    <string name="menu_about_the_app">О программе</string>
+    <string name="edit_hint_title">Название списка</string>
+
+</resources>
