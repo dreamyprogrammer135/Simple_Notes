@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
     private static final String TASK_LIST_FRAGMENT_TAG = "TASK_LIST_FRAGMENT_TAG";
     private final FragmentManager fragmentManager = getSupportFragmentManager();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

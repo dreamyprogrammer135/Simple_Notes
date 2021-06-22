@@ -23,16 +23,30 @@ public class TaskElement implements Parcelable {
     // todo 03.06.2021  подумать с приоритетом возможно и не надо
     private Integer priority;
     private Long timeReminder;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setNotes(List<Notes> notes) {
+        this.notes = notes;
+    }
+
     private Integer delete;
+
+
+    public TaskElement() {
+
+    }
 
     public TaskElement(String title, List<Notes> notes, Integer typeElement, String groupPath) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
         this.notes = notes;
-        this.createDate = getCurrentDate();
+        this.createDate = Calendar.getInstance().getTimeInMillis();
         this.typeElement = typeElement;
         //todo пока иерархии нет будем хранить id
-        if (! groupPath.equals("")) {
+        if (!groupPath.equals("")) {
             this.groupPath = groupPath;
         } else {
             this.groupPath = this.id;
@@ -42,7 +56,7 @@ public class TaskElement implements Parcelable {
     protected TaskElement(Parcel in) {
         id = in.readString();
         title = in.readString();
-        notes = in.readParcelable(Notes.class.getClassLoader());
+        notes = in.createTypedArrayList(Notes.CREATOR);
         if (in.readByte() == 0) {
             createDate = null;
         } else {
@@ -69,6 +83,63 @@ public class TaskElement implements Parcelable {
         } else {
             delete = in.readInt();
         }
+    }
+
+    public static final Creator<TaskElement> CREATOR = new Creator<TaskElement>() {
+        @Override
+        public TaskElement createFromParcel(Parcel in) {
+            return new TaskElement(in);
+        }
+
+        @Override
+        public TaskElement[] newArray(int size) {
+            return new TaskElement[size];
+        }
+    };
+
+    public static SimpleDateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<Notes> getNotes() {
+        return notes;
+    }
+
+    public Long getCreateDate() {
+        return createDate;
+    }
+
+    public Integer getTypeElement() {
+        return typeElement;
+    }
+
+    public String getGroupPath() {
+        return groupPath;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public Long getTimeReminder() {
+        return timeReminder;
+    }
+
+    public Integer getDelete() {
+        return delete;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
@@ -107,69 +178,5 @@ public class TaskElement implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeInt(delete);
         }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<TaskElement> CREATOR = new Creator<TaskElement>() {
-        @Override
-        public TaskElement createFromParcel(Parcel in) {
-            return new TaskElement(in);
-        }
-
-        @Override
-        public TaskElement[] newArray(int size) {
-            return new TaskElement[size];
-        }
-    };
-
-    public static long getCurrentDate() {
-        return Calendar.getInstance().getTimeInMillis();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return title;
-    }
-
-    public void setName(String name) {
-        this.title = name;
-    }
-
-    public List<Notes> getNotes() {
-        return notes;
-    }
-
-    
-    public String getNotesStr(){
-        String str = "";
-        for (Notes note : notes){
-            str = str + note.getNote() + "\n";
-        }
-        return str;
-    }
-    
-    public void setNotes(List<Notes> notes) {
-        this.notes = notes;
-    }
-
-    public int getIndexToString(String str){
-
-        for (int i = 0; i < notes.size(); i++) {
-            if (notes.get(i).getNote().equals(str)) {
-                return i;
-            }
-        }
-        return -1;
     }
 }

@@ -18,10 +18,10 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
-    private List<TaskElement> taskElements = new ArrayList<>();
+    private List<TaskElement> taskElements = new ArrayList<TaskElement>();
     private OnItemClickListener itemClickListener;
 
-    public TaskAdapter(ArrayList<TaskElement> taskElements) {
+    public TaskAdapter(List<TaskElement> taskElements) {
         this.taskElements = taskElements;
     }
 
@@ -56,7 +56,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         // Получить элемент из источника данных (БД, интернет...)
         // Вынести на экран используя ViewHolder
         // Заполнение View вынести в отдельный метод
-        viewHolder.textViewTask.setText(taskElements.get(i).getName());
+        viewHolder.textViewTask.setText(taskElements.get(i).getTitle());
         //todo пока заглушка, потом метод подсчитывает выполненные задачи и невыполненные
         viewHolder.textViewCount.setText("4/9");
     }

@@ -30,6 +30,7 @@ public class ListNotes extends Fragment {
     private TaskAdapter adapter;
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
+    private TaskRepo repo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,9 @@ public class ListNotes extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new TaskAdapter(taskElements);
+        repo = new FirebaseRepoImpl();
+
+        adapter = new TaskAdapter(repo.getTasks());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((view, position) -> {
             ((Controller) getActivity()).editNotes(taskElements.get(position));
@@ -114,7 +117,8 @@ public class ListNotes extends Fragment {
     }
 
     public void addNote(TaskElement newTask) {
-        taskElements.add(newTask);
+        repo.createTask(newTask);
+//        taskElements.add(newTask);
         adapter.setData(taskElements);
     }
 

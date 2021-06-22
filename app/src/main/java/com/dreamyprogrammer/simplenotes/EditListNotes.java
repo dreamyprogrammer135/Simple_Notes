@@ -83,7 +83,7 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
                     ));
                 } else controller.saveNotes(null);
             } else {
-                task.setName(editTitle.getText().toString());
+                task.setTitle(editTitle.getText().toString());
                 task.setNotes(getNotesListFinal(task.getNotes(), getNotesList(editTextNotes.getText().toString())));
                 controller.saveNotes(null);
             }
@@ -133,10 +133,17 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
     private void fillTask(TaskElement task) {
         if (task == null) return;
         editTitle.setText(task.getTitle());
-        editTextNotes.setText(task.getNotesStr());
+        editTextNotes.setText(getNotesStr(task.getNotes()));
 
     }
 
+    public String getNotesStr(List<Notes> notes){
+        String str = "";
+        for (Notes note : notes){
+            str = str + note.getNote() + "\n";
+        }
+        return str;
+    }
 //    private TaskElement gatherNote() {
 //        return new TaskElement(
 //                task == null ? TaskElement.generateNewId() : task.id,

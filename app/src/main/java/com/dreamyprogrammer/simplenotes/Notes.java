@@ -7,6 +7,9 @@ public class Notes implements Parcelable {
     private String note;
     private Boolean completed;
 
+    public Notes() {
+    }
+
     public Notes(String note, Boolean completed) {
         this.note = note;
         this.completed = completed;
