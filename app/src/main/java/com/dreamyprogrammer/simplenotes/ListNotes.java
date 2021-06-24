@@ -21,16 +21,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListNotes extends Fragment {
 
-    private ArrayList<TaskElement> taskElements = new ArrayList<>();
+    private List<TaskElement> taskElements = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
     private TaskRepo repo;
+
+
+    private Runnable subscriber = () -> {
+        adapter.setData(repo.getTasks());
+        adapter.notifyDataSetChanged();
+        taskElements = repo.getTasks();
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,12 @@ public class ListNotes extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findView(view);
         setupRecyclerView();
+    }
+
+    @Override
+    public void onDestroy() {
+        repo.unsubscribe(subscriber);
+        super.onDestroy();
     }
 
     private void findView(View view) {
@@ -88,10 +102,13 @@ public class ListNotes extends Fragment {
         repo = new FirebaseRepoImpl();
 
         adapter = new TaskAdapter(repo.getTasks());
+        adapter.setData(repo.getTasks());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((view, position) -> {
             ((Controller) getActivity()).editNotes(taskElements.get(position));
         });
+
+        repo.subscribe(subscriber);
     }
 
     @Override
@@ -118,8 +135,7 @@ public class ListNotes extends Fragment {
 
     public void addNote(TaskElement newTask) {
         repo.createTask(newTask);
-//        taskElements.add(newTask);
-        adapter.setData(taskElements);
+        adapter.setData(repo.getTasks());
     }
 
     interface Controller {

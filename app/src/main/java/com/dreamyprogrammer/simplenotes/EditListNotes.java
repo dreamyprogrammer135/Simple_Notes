@@ -63,6 +63,9 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
     }
 
     private void findView(View view) {
+        TaskRepo repo;
+        repo = new FirebaseRepoImpl();
+
         editTextNotes = view.findViewById(R.id.edit_text_notes);
         editTitle = view.findViewById(R.id.edit_title);
         saveButton = view.findViewById(R.id.save_button);
@@ -85,17 +88,16 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
             } else {
                 task.setTitle(editTitle.getText().toString());
                 task.setNotes(getNotesListFinal(task.getNotes(), getNotesList(editTextNotes.getText().toString())));
+                repo.updateTask(task);
                 controller.saveNotes(null);
             }
         });
     }
 
-
     public List<String> getNotesList(String notesStr) {
         List<String> list = new ArrayList<String>(Arrays.asList(notesStr.split("\n")));
         return list;
     }
-
 
     public List<Notes> getNotesListFinal(@Nullable List<Notes> notesOld, List<String> notesStr) {
 
@@ -104,28 +106,20 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
 
         for (int i = 0; i < notesStr.size(); i++) {
             index = -1;
-            if(notesOld != null) {
+            if (notesOld != null) {
                 for (int j = 0; j < notesOld.size(); j++) {
                     if (notesStr.get(i).equals(notesOld.get(j).getNote())) {
                         index = j;
                     }
                 }
             }
-            if(index !=-1) {
+            if (index != -1) {
                 notesNew.add(new Notes(notesStr.get(i), notesOld.get(index).getCompleted()));
             } else {
                 notesNew.add(new Notes(notesStr.get(i), false));
             }
         }
-//
-//        for (String noteStr : notesStr) {
-//            index = notesOld == null ? -1 : notesOld. getIndexToString() ;
-//            if (index == -1) {
-//                notesNew.add(new Notes(noteStr, false));
-//            } else {
-//                notesNew.add(new Notes(noteStr, notesOld.get(index).getCompleted()));
-//            }
-//        }
+
         return notesNew;
     }
 
@@ -137,22 +131,13 @@ public class EditListNotes extends Fragment implements DatePickerFragment.DateRe
 
     }
 
-    public String getNotesStr(List<Notes> notes){
+    public String getNotesStr(List<Notes> notes) {
         String str = "";
-        for (Notes note : notes){
+        for (Notes note : notes) {
             str = str + note.getNote() + "\n";
         }
         return str;
     }
-//    private TaskElement gatherNote() {
-//        return new TaskElement(
-//                task == null ? TaskElement.generateNewId() : task.id,
-//                subjectEditText.getText().toString(),
-//                task == null ? TaskElement.getCurrentDate() : task.creationDate,
-//                textEditText.getText().toString(),
-//                phoneEditText.getText().toString()
-//        );
-//}
 
     @Override
     public void onAttach(@NonNull Context context) {

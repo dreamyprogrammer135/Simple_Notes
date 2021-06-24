@@ -27,9 +27,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     // Передаем в конструктор источник данных
     // В нашем случае это массив, но может быть и запросом к БД
-    public void setData(ArrayList<TaskElement> notes) {
+    public void setData(List<TaskElement> notes) {
         taskElements = notes;
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     // Создать новый элемент пользовательского интерфейса
@@ -96,12 +96,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             textViewTask.setOnLongClickListener(this::initPopupMenu);
         }
 
-        private boolean onPopupMenuClicked(MenuItem menuItem) {
+        public boolean onPopupMenuClicked(MenuItem menuItem) {
+            TaskRepo repo;
+            repo = new FirebaseRepoImpl();
+
             if (menuItem.getItemId() == R.id.popup_menu_item_delete) {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION) return false;
+                repo.deleteTask(taskElements.get(adapterPosition));
                 taskElements.remove(adapterPosition);
-                setData((ArrayList<TaskElement>) taskElements);
+                setData(repo.getTasks());
             } else {
                 throw new RuntimeException("unknown popup menu item");
             }

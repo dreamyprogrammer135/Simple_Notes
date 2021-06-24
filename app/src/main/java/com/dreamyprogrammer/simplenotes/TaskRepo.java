@@ -5,10 +5,13 @@ import java.util.List;
 public interface TaskRepo {
     List<TaskElement> getTasks();
 
-    void deleteTask(int id);
+    void deleteTask(TaskElement task);
 
     void updateTask(TaskElement task);
 
     void createTask(TaskElement task);
 
+    void subscribe(Runnable subscriber);
+
+    void unsubscribe(Runnable subscriber);
 }

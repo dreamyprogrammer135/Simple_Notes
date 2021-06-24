@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +34,6 @@ public class CheckListNotesFragment extends Fragment {
     private TextView editTitleCheck;
     private ImageView imageViewCheckEdit;
     private ImageView imageViewBackCheck;
-
 
     public static CheckListNotesFragment newInstance(TaskElement taskElement) {
         CheckListNotesFragment checkListNotesFragment = new CheckListNotesFragment();
@@ -72,6 +70,9 @@ public class CheckListNotesFragment extends Fragment {
 
     private void setupRecyclerView() {
 
+        TaskRepo repo;
+        repo = new FirebaseRepoImpl();
+
         layoutManager = new LinearLayoutManager(getContext());
         checkRecyclerView.setLayoutManager(layoutManager);
         editTitleCheck.setText(task.getTitle());
@@ -83,25 +84,19 @@ public class CheckListNotesFragment extends Fragment {
         imageViewBackCheck.setOnClickListener(v -> {
             getActivity().onBackPressed();
         });
-        // todo Пока константный список. Потом доделаем.
-//        String checkElement1 = "Разобраться с фрагментами";
-//        String checkElement2 = "Купить велосипед";
-//        for (Notes notes : task.getNotes()) {
-//            checkElements.add(notes.getNote());
-//        }
 
         adapter = new CheckListAdapter(task.getNotes());
         checkRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((view, position) -> {
-            if(task.getNotes().get(position).getCompleted() == false) {
+            if (task.getNotes().get(position).getCompleted() == false) {
                 task.getNotes().get(position).setCompleted(true);
             } else {
                 task.getNotes().get(position).setCompleted(false);
             }
             adapter.setData(task.getNotes());
+            repo.updateTask(task);
         });
     }
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -118,7 +113,6 @@ public class CheckListNotesFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         ((AppCompatActivity) getActivity()).getMenuInflater().inflate(R.menu.menu_main, menu);
     }
-
 
     interface Controller {
         void editCheckNotes(TaskElement taskElement);
