@@ -34,5 +34,6 @@
     <string name="edit_hint_title">Name of the list</string>
     <string name="popup_menu_delete">Delete</string>
     <string name="error_text">The functionality is temporarily unavailable</string>
+    <string name="asdd" translatable="false">123</string>
 
 </resources>
