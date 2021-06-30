@@ -34,6 +34,10 @@
     <string name="edit_hint_title">Name of the list</string>
     <string name="popup_menu_delete">Delete</string>
     <string name="error_text">The functionality is temporarily unavailable</string>
-    <string name="asdd" translatable="false">123</string>
+    <string name="alert_dialog_delete">Delete Task</string>
+    <string name="exclamation">Are you sure you want to delete the task?</string>
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="deletion_canceled">Deletion canceled</string>
 
 </resources>

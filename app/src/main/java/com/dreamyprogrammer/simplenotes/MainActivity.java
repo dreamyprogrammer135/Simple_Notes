@@ -5,6 +5,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import java.security.AccessControlContext;
+
+import static java.security.AccessController.getContext;
+
 
 public class MainActivity extends AppCompatActivity implements ListNotes.Controller, EditListNotes.Controller,
                                                                 CheckListNotesFragment.Controller{
@@ -12,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
 
     private static final String TASK_LIST_FRAGMENT_TAG = "TASK_LIST_FRAGMENT_TAG";
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private AccessControlContext context;
 
 
     @Override
@@ -19,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = getContext();
 
         fragmentManager.beginTransaction()
                 .add(R.id.container, new ListNotes(), TASK_LIST_FRAGMENT_TAG)

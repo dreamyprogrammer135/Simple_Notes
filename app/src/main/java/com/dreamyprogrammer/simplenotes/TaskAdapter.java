@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -96,16 +98,29 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             textViewTask.setOnLongClickListener(this::initPopupMenu);
         }
 
-        public boolean onPopupMenuClicked(MenuItem menuItem) {
+        public boolean onPopupMenuClicked(MenuItem menuItem, View view) {
             TaskRepo repo;
             repo = new FirebaseRepoImpl();
 
             if (menuItem.getItemId() == R.id.popup_menu_item_delete) {
                 int adapterPosition = getAdapterPosition();
                 if (adapterPosition == RecyclerView.NO_POSITION) return false;
-                repo.deleteTask(taskElements.get(adapterPosition));
-                taskElements.remove(adapterPosition);
-                setData(repo.getTasks());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle(R.string.alert_dialog_delete)
+                        .setMessage(R.string.exclamation)
+                        .setCancelable(false)
+                        .setNegativeButton(R.string.no,
+                                (dialog, id) -> Toast.makeText(view.getContext(), R.string.deletion_canceled, Toast.LENGTH_SHORT).show())
+                        .setPositiveButton(R.string.yes,
+                                (dialog, id) -> {
+                                    repo.deleteTask(taskElements.get(adapterPosition));
+                                    taskElements.remove(adapterPosition);
+                                    setData(repo.getTasks());
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
             } else {
                 throw new RuntimeException("unknown popup menu item");
             }
@@ -115,7 +130,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         private boolean initPopupMenu(View view) {
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), itemView);
             popupMenu.inflate(R.menu.popup_menu_list);
-            popupMenu.setOnMenuItemClickListener(this::onPopupMenuClicked);
+            popupMenu.setOnMenuItemClickListener(menuItem -> onPopupMenuClicked(menuItem, view));
             popupMenu.show();
             return true;
         }

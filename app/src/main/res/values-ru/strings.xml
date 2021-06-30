@@ -19,5 +19,10 @@
     <string name="edit_hint_title">Название списка</string>
     <string name="popup_menu_delete">Удалить</string>
     <string name="error_text">Функционал временно не доступен</string>
+    <string name="alert_dialog_delete">Удалить Задачу</string>
+    <string name="exclamation">Вы уверены, что хотите удалить задачу?</string>
+    <string name="no">нет</string>
+    <string name="yes">да</string>
+    <string name="deletion_canceled">Удаление отменено</string>
 
 </resources>
