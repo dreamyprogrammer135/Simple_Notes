@@ -3,6 +3,8 @@ package com.dreamyprogrammer.simplenotes;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,19 +20,24 @@ public class FirebaseRepoImpl implements TaskRepo {
     private static final String TASKS_TABLE_NAME = "tasks";
     private List<TaskElement> cache = new ArrayList<>();
     private List<Runnable> subscribers = new ArrayList<>();
+    public static String collectionName;
 
     private FirebaseFirestore database;
 
     public FirebaseRepoImpl() {
 
+//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//        assert currentUser != null;
+        collectionName = UserAuth.getUserData().toString();
+
         database = FirebaseFirestore.getInstance();
-        database.collection(TASKS_TABLE_NAME).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        database.collection(collectionName).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 refillCache(queryDocumentSnapshots);
             }
         });
-        database.collection(TASKS_TABLE_NAME).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        database.collection(collectionName).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                 refillCache(value);
@@ -57,26 +64,26 @@ public class FirebaseRepoImpl implements TaskRepo {
     @Override
     public void updateTask(TaskElement task) {
         findNote(task, document -> {
-            database.collection(TASKS_TABLE_NAME).document(document.getId()).delete();
-            database.collection(TASKS_TABLE_NAME).add(task);
+            database.collection(UserAuth.getUserData().toString()).document(document.getId()).delete();
+            database.collection(UserAuth.getUserData().toString()).add(task);
         });
     }
 
     @Override
     public void createTask(TaskElement task) {
-        database.collection(TASKS_TABLE_NAME).add(task);
+        database.collection(UserAuth.getUserData().toString()).add(task);
         notifySubscribers();
     }
 
     @Override
     public void deleteTask(TaskElement task) {
         findNote(task, document ->
-                database.collection(TASKS_TABLE_NAME).document(document.getId()).delete()
+                database.collection(UserAuth.getUserData().toString()).document(document.getId()).delete()
         );
     }
 
     private void findNote(TaskElement task, OnNoteFoundListener noteFoundListener) {
-        database.collection(TASKS_TABLE_NAME).whereEqualTo(ID_KEY, task.getId()).get()
+        database.collection(UserAuth.getUserData().toString()).whereEqualTo(ID_KEY, task.getId()).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {

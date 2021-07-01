@@ -39,5 +39,6 @@
     <string name="no">no</string>
     <string name="yes">yes</string>
     <string name="deletion_canceled">Deletion canceled</string>
+    <string name="continue_">Continue...</string>
 
 </resources>

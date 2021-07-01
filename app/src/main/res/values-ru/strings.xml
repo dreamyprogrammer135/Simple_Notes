@@ -24,5 +24,6 @@
     <string name="no">нет</string>
     <string name="yes">да</string>
     <string name="deletion_canceled">Удаление отменено</string>
+    <string name="continue_">Продолжить...</string>
 
 </resources>

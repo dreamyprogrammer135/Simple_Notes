@@ -11,7 +11,7 @@ import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends AppCompatActivity implements ListNotes.Controller, EditListNotes.Controller,
-                                                                CheckListNotesFragment.Controller{
+        CheckListNotesFragment.Controller, AuthFragment.Controller {
 
 
     private static final String TASK_LIST_FRAGMENT_TAG = "TASK_LIST_FRAGMENT_TAG";
@@ -26,16 +26,27 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
 
         context = getContext();
 
-        fragmentManager.beginTransaction()
-                .add(R.id.container, new ListNotes(), TASK_LIST_FRAGMENT_TAG)
-                .commit();
+        if (UserAuth.nameUser == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, AuthFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit();
+            ;
+        } else {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new ListNotes(), "NOTES_LIST_FRAGMENT_TAG");
+            //        fragmentManager.beginTransaction()
+//                .add(R.id.container, new ListNotes(), TASK_LIST_FRAGMENT_TAG)
+//                .commit();
+
+        }
     }
 
     @Override
     public void saveNotes(TaskElement taskElement) {
         getSupportFragmentManager().popBackStack();
         ListNotes noteListFragment = (ListNotes) getSupportFragmentManager().findFragmentByTag(TASK_LIST_FRAGMENT_TAG);
-        if (taskElement != null){
+        if (taskElement != null) {
             noteListFragment.addNote(taskElement);
         }
     }
@@ -70,6 +81,13 @@ public class MainActivity extends AppCompatActivity implements ListNotes.Control
         fragmentManager.beginTransaction()
                 .replace(R.id.container, EditListNotes.newInstance(taskElement))
                 .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void openMainScreen() {
+        fragmentManager.beginTransaction()
+                .add(R.id.container, new ListNotes(), TASK_LIST_FRAGMENT_TAG)
                 .commit();
     }
 }
