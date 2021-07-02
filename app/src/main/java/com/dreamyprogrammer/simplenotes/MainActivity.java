@@ -1,14 +1,93 @@
 package com.dreamyprogrammer.simplenotes;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
+import java.security.AccessControlContext;
+
+import static java.security.AccessController.getContext;
+
+
+public class MainActivity extends AppCompatActivity implements ListNotes.Controller, EditListNotes.Controller,
+        CheckListNotesFragment.Controller, AuthFragment.Controller {
+
+
+    private static final String TASK_LIST_FRAGMENT_TAG = "TASK_LIST_FRAGMENT_TAG";
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private AccessControlContext context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getContext();
+
+        if (UserAuth.nameUser == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, AuthFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit();
+            ;
+        } else {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new ListNotes(), "NOTES_LIST_FRAGMENT_TAG");
+            //        fragmentManager.beginTransaction()
+//                .add(R.id.container, new ListNotes(), TASK_LIST_FRAGMENT_TAG)
+//                .commit();
+
+        }
+    }
+
+    @Override
+    public void saveNotes(TaskElement taskElement) {
+        getSupportFragmentManager().popBackStack();
+        ListNotes noteListFragment = (ListNotes) getSupportFragmentManager().findFragmentByTag(TASK_LIST_FRAGMENT_TAG);
+        if (taskElement != null) {
+            noteListFragment.addNote(taskElement);
+        }
+    }
+
+    @Override
+    public void openAboutFragment() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, new AboutTheApp())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void editNotes(TaskElement taskElement) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, new CheckListNotesFragment().newInstance(taskElement))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void createNotes() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, EditListNotes.newInstance(null))
+                .addToBackStack(null)
+                .commit();
+    }
+
+
+    @Override
+    public void editCheckNotes(TaskElement taskElement) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, EditListNotes.newInstance(taskElement))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void openMainScreen() {
+        fragmentManager.beginTransaction()
+                .add(R.id.container, new ListNotes(), TASK_LIST_FRAGMENT_TAG)
+                .commit();
     }
 }
